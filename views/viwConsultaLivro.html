@@ -159,6 +159,7 @@
 							group: "actions",
 							attributes: { tabindex: "30" },
 							click: function () {
+								$("#frmConsultaLivro #idLivro").val("")
 								OpenWindow("CadastroLivro", true)
 							}
 						},
@@ -170,7 +171,11 @@
 							attributes: { tabindex: "31" },
 							enable: false,
 							click: function () {
+								var grid = $("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid")
+								var campoSelecionado = grid.dataItem(grid.select())
 
+								$("#frmConsultaLivro #idLivro").val(campoSelecionado.idlivro)
+								OpenWindow("CadastroLivro", true)
 							}
 						},
 						{
@@ -245,6 +250,7 @@
 <div class="k-form">
 	<form id="frmConsultaLivro" style="height: 100%;">
 		<div id="splConsulta">
+			<input type="hidden" name="idLivro" id="idLivro">
 			<div id="splHeader">
 				<div class="k-bg-blue screen-filter-content">
 					<table>

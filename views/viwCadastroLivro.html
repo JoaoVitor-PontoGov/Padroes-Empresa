@@ -1,6 +1,5 @@
 <script>
 	$(function () {
-
 		$("#flGeneroLiterario").kendoDropDownList({
 			optionLabel: "Selecione um genero...",
 			dataSource: [
@@ -38,12 +37,12 @@
 
 									livros.push({
 										idlivro: ultimoID,
-										dstitulo: $("#dsTitulo").val(),
-										dsautor: $("#dsAutor").val(),
-										flgeneroliterario: $("#flGeneroLiterario").val(),
-										dsnumeropaginas: parseInt($("#dsNumeroPaginas").val()),
-										dtpublicacao: $("#dtPublicacao").val(),
-										fldisponivel: $("#flDisponivel").val() == "on" ? "S" : "N"
+										dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
+										dsautor: $("#frmCadastroLivro #dsAutor").val(),
+										flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
+										dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
+										dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
+										fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
 									})
 
 									console.log("cadastrando", livros)
@@ -70,6 +69,21 @@
 			]
 		})
 
+		if ($("#frmConsultaLivro #idLivro").val() != "") {
+			var grid = $("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid")
+			var campoSelecionado = grid.dataItem(grid.select())
+			console.log(campoSelecionado)
+
+			$("#frmCadastroLivro #idLivro").val(campoSelecionado.idlivro)
+			$("#frmCadastroLivro #dsTitulo").val(campoSelecionado.dstitulo)
+			$("#frmCadastroLivro #dsAutor").val(campoSelecionado.dsautor)
+			$("#frmCadastroLivro #flGeneroLiterario").data("kendoDropDownList").value(campoSelecionado.flgeneroliterario)
+			$("#frmCadastroLivro #dsNumeroPaginas").data("kendoNumericTextBox").value(campoSelecionado.dsnumeropaginas)
+			$("#frmCadastroLivro #dtPublicacao").val(campoSelecionado.dtpublicacao)
+			if (campoSelecionado.fldisponivel == "S") {
+				$("#flDisponivel").prop("checked", true)
+			}
+		}
 
 		$("#WinCadastroLivro").data("kendoWindow").center().open()
 	})
