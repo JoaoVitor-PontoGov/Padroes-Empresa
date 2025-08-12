@@ -19,6 +19,57 @@
 
 		$("#dtPublicacao").kendoDatePicker()
 
+		$("#frmCadastroLivro #BarAcoes").kendoToolBar({
+			items: [
+				{ type: "spacer" },
+				{
+					type: "buttonGroup", buttons: [
+						{
+							id: "BtnGravar",
+							spriteCssClass: "k-pg-icon k-i-l1-c5",
+							text: "Gravar",
+							group: "actions",
+							attributes: { tabindex: "30" },
+							click: function () {
+								if ($("#idLivro").val() == "") {
+									var ultimoID = parseInt(localStorage.getItem("ultimoID") || 0)
+									const livros = JSON.parse(localStorage.getItem("livros")) || []
+									ultimoID++;
+
+									livros.push({
+										idlivro: ultimoID,
+										dstitulo: $("#dsTitulo").val(),
+										dsautor: $("#dsAutor").val(),
+										flgeneroliterario: $("#flGeneroLiterario").val(),
+										dsnumeropaginas: parseInt($("#dsNumeroPaginas").val()),
+										dtpublicacao: $("#dtPublicacao").val(),
+										fldisponivel: $("#flDisponivel").val() == "on" ? "S" : "N"
+									})
+
+									console.log("cadastrando", livros)
+									localStorage.setItem("livros", JSON.stringify(livros))
+									localStorage.setItem("ultimoID", ultimoID)
+
+									$("#GrdConsultaLivro").data("kendoGrid").dataSource.read();
+									$("#WinCadastroLivro").data("kendoWindow").close();
+								}
+							}
+						},
+						{
+							id: "BtnFechar",
+							spriteCssClass: "k-pg-icon k-i-l1-c4",
+							text: "Fechar",
+							group: "actions",
+							attributes: { tabindex: "31" },
+							click: function () {
+								$("#WinCadastroLivro").data("kendoWindow").close();
+							}
+						}
+					]
+				}
+			]
+		})
+
 
 		$("#WinCadastroLivro").data("kendoWindow").center().open()
 	})
@@ -77,11 +128,14 @@
 		</table>
 		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Disponibilidade:</td>
 				<td>
-					<input type="checkbox" id="flDisponivel" name="flDisponivel"">
+					<input type="checkbox" id="flDisponivel" name="flDisponivel" class="k-checkbox"
+						style="margin-left: 120px;">
+					<label for="flDisponivel" class="k-label-checkbox">Disponivel</label>
 				</td>
 			</tr>
 		</table>
+
+		<div id="BarAcoes"></div>
 	</form>
 </div>

@@ -63,7 +63,7 @@
 			{
 				name: "flgeneroliterario",
 				type: "string",
-				label: "Gênero literário",
+				label: "Genero literario",
 				visibleFilter: 'true',
 				orderFilter: '5',
 
@@ -81,12 +81,12 @@
 			{
 				name: "dsnumeropaginas",
 				type: "integer",
-				label: "N° de páginas",
+				label: "N de paginas",
 				visibleFilter: 'true',
 				orderFilter: '6',
 
 				orderGrid: '5',
-				widthGrid: '100',
+				widthGrid: '150',
 				hiddenGrid: 'false',
 				headerAttributesGrid: 'text-align: center',
 				attributesGrid: 'text-align: center',
@@ -99,7 +99,7 @@
 			{
 				name: "dtpublicacao",
 				type: "date",
-				label: "Data de publicação",
+				label: "Data de publicacao",
 				visibleFilter: 'true',
 				orderFilter: '7',
 
@@ -126,6 +126,14 @@
 				hiddenGrid: 'false',
 				headerAttributesGrid: "text-align: center",
 				attributesGrid: 'text-align: center',
+				templateGrid: function (livro) {
+
+					if (livro && livro.fldisponivel == "S") {
+						return "Disponivel"
+					} else {
+						return "Nao Disponivel"
+					}
+				},
 
 				showPreview: 'true',
 				indiceTabPreview: 'tabDadosGerais',
@@ -160,6 +168,7 @@
 							text: "Editar",
 							group: "actions",
 							attributes: { tabindex: "31" },
+							enable: false,
 							click: function () {
 
 							}
@@ -179,8 +188,48 @@
 			]
 		})
 
+		let DtsConsultaLivro = new kendo.data.DataSource({
+			pageSize: 100,
+			transport: {
+				read: function (options) {
+					options.success(JSON.parse(localStorage.getItem("livros")) || [])
+				}
+			},
+			schema: {
+				model: getModelDataSource(arrDataSource)
+			}
+		})
+
 		$("#frmConsultaLivro #GrdConsultaLivro").kendoGrid({
-			columns: getColumnsQuery(arrDataSource)
+			pdf: SetPdfOptions("Listagem de livros"),
+			pdfExport: function () {
+				tituloPdfExport = "Listagem de livros"
+			},
+			dataSource: DtsConsultaLivro,
+			height: getHeightGridQuery("ConsultaLivro"),
+			columns: getColumnsQuery(arrDataSource),
+			selectable: "row",
+			resizable: true,
+			reordenable: true,
+			navigatable: true,
+			columnMenu: true,
+			filterable: true,
+			sortable: {
+				mode: "multiple",
+				allowUnsort: true,
+			},
+			sort: function () { },
+			pageable: {
+				pageSizes: [100, 300, 500, "all"],
+				numeric: false,
+				input: true
+			},
+			columnShow: function (e) { },
+			columnHide: function (e) { },
+			filter: function (e) { },
+			change: function () {
+				$("#frmConsultaLivro #BarAcoes").data("kendoToolBar").enable("#BtnEditar")
+			}
 		});
 
 		$("#splConsulta").kendoSplitter({
