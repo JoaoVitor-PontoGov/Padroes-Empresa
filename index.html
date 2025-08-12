@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Padroes da Empresa</title>
 
-	<link href="icons/pg.favicon.png" rel="shortcut icon">
+	<link href="img/icons/pg.favicon.png" rel="shortcut icon">
 
 	<link href="css/pg.kendo.common.min.css" rel="stylesheet">
 	<link href="css/pg.kendo.blueopal.min.css" rel="stylesheet">
@@ -165,6 +165,96 @@
 					indiceTabPreview: 'tabDadosGerais',
 					widthPreview: '600',
 					positionPreview: '2'
+				},
+				{
+					name: "dsautor",
+					type: "string",
+					label: "Autor",
+					visibleFilter: 'true',
+					orderFilter: '4',
+
+					orderGrid: '3',
+					widthGrid: '',
+					hiddenGrid: 'false',
+					headerAttributesGrid: 'text-align: center',
+					attributesGrid: 'text-align: center',
+
+					showPreview: 'true',
+					indiceTabPreview: 'tabDadosGerais',
+					widthPreview: '300',
+					positionPreview: '3'
+				},
+				{
+					name: "flgeneroliterario",
+					type: "string",
+					label: "Gênero literário",
+					visibleFilter: 'true',
+					orderFilter: '5',
+
+					orderGrid: '4',
+					widthGrid: '',
+					hiddenGrid: 'false',
+					headerAttributesGrid: 'text-align: center',
+					attributesGrid: 'text-align: center',
+
+					showPreview: 'true',
+					indiceTabPreview: 'tabDadosGerais',
+					widthPreview: '300',
+					positionPreview: '4'
+				},
+				{
+					name: "dsnumeropaginas",
+					type: "integer",
+					label: "N° de páginas",
+					visibleFilter: 'true',
+					orderFilter: '6',
+
+					orderGrid: '5',
+					widthGrid: '100',
+					hiddenGrid: 'false',
+					headerAttributesGrid: 'text-align: center',
+					attributesGrid: 'text-align: center',
+
+					showPreview: 'true',
+					indiceTabPreview: 'tabDadosGerais',
+					widthPreview: '80',
+					positionPreview: '5'
+				},
+				{
+					name: "dtpublicacao",
+					type: "date",
+					label: "Data de publicação",
+					visibleFilter: 'true',
+					orderFilter: '7',
+
+					orderGrid: '6',
+					widthGrid: '150',
+					hiddenGrid: 'false',
+					headerAttributesGrid: "text-align: center",
+					attributesGrid: 'text-align: center',
+
+					showPreview: 'true',
+					indiceTabPreview: 'tabDadosGerais',
+					widthPreview: '150',
+					positionPreview: '6'
+				},
+				{
+					name: "bldisponivel",
+					type: "boolean",
+					label: "Disponibilidade",
+					visibleFilter: 'true',
+					orderFilter: '8',
+
+					orderGrid: '7',
+					widthGrid: '150',
+					hiddenGrid: 'false',
+					headerAttributesGrid: "text-align: center",
+					attributesGrid: 'text-align: center',
+
+					showPreview: 'true',
+					indiceTabPreview: 'tabDadosGerais',
+					widthPreview: '150',
+					positionPreview: '7'
 				}
 			];
 
@@ -172,7 +262,45 @@
 			createPgFilter(arrDataSource, "ConsultaLivro");
 
 			$("#frmConsultaLivro #BarAcoes").kendoToolBar({
+				items: [
+					{
+						type: "spacer"
+					},
+					{
+						type: "buttonGroup", buttons: [
+							{
+								id: "BtnIncluir",
+								spriteCssClass: "k-pg-icon k-i-l1-c1",
+								text: "Incluir",
+								group: "actions",
+								attributes: { tabindex: "30" },
+								click: function () {
 
+								}
+							},
+							{
+								id: "BtnEditar",
+								spriteCssClass: "k-pg-icon k-i-l1-c3",
+								text: "Editar",
+								group: "actions",
+								attributes: { tabindex: "31" },
+								click: function () {
+
+								}
+							},
+							{
+								id: "BtnExcluir",
+								spriteCssClass: "k-pg-icon k-i-l1-c4",
+								text: "Fechar",
+								group: "actions",
+								attributes: { tabindex: "32" },
+								click: function () {
+
+								}
+							}
+						]
+					}
+				]
 			})
 
 			$("#frmConsultaLivro #GrdConsultaLivro").kendoGrid({
