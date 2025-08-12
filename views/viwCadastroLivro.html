@@ -1,0 +1,87 @@
+<script>
+	$(function () {
+
+		$("#flGeneroLiterario").kendoDropDownList({
+			optionLabel: "Selecione um genero...",
+			dataSource: [
+				{ name: "Ficcao" },
+				{ name: "Filosofia" },
+				{ name: "Drama" },
+				{ name: "Aventura" }
+			],
+			dataTextField: "name",
+			dataValueField: "name"
+		})
+
+		$("#dsNumeroPaginas").kendoNumericTextBox({
+			min: '0'
+		})
+
+		$("#dtPublicacao").kendoDatePicker()
+
+
+		$("#WinCadastroLivro").data("kendoWindow").center().open()
+	})
+</script>
+
+<div class="k-form">
+	<form id="frmCadastroLivro">
+		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
+			<tr>
+				<td style="text-align: right; width: 120px;">Id:</td>
+				<td>
+					<input type="text" id="idLivro" name="idLivro" class="k-textbox k-input-disabled"
+						readonly="readonly" style="width: 80px;">
+				</td>
+			</tr>
+		</table>
+		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
+			<tr>
+				<td style="text-align: right; width: 120px;">Titulo:</td>
+				<td>
+					<input type="text" id="dsTitulo" name="dsTitulo" class="k-textbox" style="width: 600px;">
+				</td>
+			</tr>
+		</table>
+		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
+			<tr>
+				<td style="text-align: right; width: 120px;">Autor:</td>
+				<td>
+					<input type="text" id="dsAutor" name="dsAutor" class="k-textbox" style="width: 600px;">
+				</td>
+			</tr>
+		</table>
+		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
+			<tr>
+				<td style="text-align: right; width: 120px;">Genero Literario:</td>
+				<td>
+					<input id="flGeneroLiterario" name="flGeneroLiterario" style="width: 250px;">
+				</td>
+			</tr>
+		</table>
+		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
+			<tr>
+				<td style="text-align: right; width: 120px;">Numero de paginas:</td>
+				<td>
+					<input id="dsNumeroPaginas" name="dsNumeroPaginas" style="width: 80px;">
+				</td>
+			</tr>
+		</table>
+		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
+			<tr>
+				<td style="text-align: right; width: 120px;">Data de Publicacao:</td>
+				<td>
+					<input id="dtPublicacao" name="dtPublicacao" style="width: 250px;">
+				</td>
+			</tr>
+		</table>
+		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
+			<tr>
+				<td style="text-align: right; width: 120px;">Disponibilidade:</td>
+				<td>
+					<input type="checkbox" id="flDisponivel" name="flDisponivel"">
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
