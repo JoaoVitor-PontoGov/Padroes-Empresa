@@ -15,7 +15,9 @@
 		})
 
 		$("#dsNumeroPaginas").kendoNumericTextBox({
-			min: '0'
+			min: '0',
+			format: "n0",
+			decimals: 0,
 		})
 
 		$("#dtPublicacao").kendoDatePicker()
@@ -55,29 +57,41 @@
 								} else {
 
 									if ($("#frmCadastroLivro #idLivro").val() == "") {
-										var ultimoID = parseInt(localStorage.getItem("ultimoID") || 0)
 										const livros = JSON.parse(localStorage.getItem("livros")) || []
-										ultimoID++;
+										const novoTitulo = $("#frmCadastroLivro #dsTitulo").val().trim().toLowerCase();
 
-										livros.push({
-											idlivro: ultimoID,
-											dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
-											dsautor: $("#frmCadastroLivro #dsAutor").val(),
-											flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
-											dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
-											dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
-											fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
-										})
+										const existe = livros.some(l =>
+											l.dstitulo.trim().toLowerCase() === novoTitulo
+										);
 
-										console.log("Cadastrando", livros)
-										localStorage.setItem("livros", JSON.stringify(livros))
-										localStorage.setItem("ultimoID", ultimoID)
+										if (existe) {
+											Message('dlg', 'A', 'Esse livro ja esta cadastrado');
 
-										$("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid").dataSource.read();
-										$("#WinCadastroLivro").data("kendoWindow").close();
+										} else {
 
-										Message('ntf', 'S', "Livro incluido com sucesso")
+											var ultimoID = parseInt(localStorage.getItem("ultimoID") || 0)
+											const livros = JSON.parse(localStorage.getItem("livros")) || []
+											ultimoID++;
 
+											livros.push({
+												idlivro: ultimoID,
+												dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
+												dsautor: $("#frmCadastroLivro #dsAutor").val(),
+												flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
+												dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
+												dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
+												fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
+											})
+
+											console.log("Cadastrando", livros)
+											localStorage.setItem("livros", JSON.stringify(livros))
+											localStorage.setItem("ultimoID", ultimoID)
+
+											$("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid").dataSource.read();
+											$("#WinCadastroLivro").data("kendoWindow").close();
+
+											Message('ntf', 'S', "Livro incluido com sucesso")
+										}
 									} else {
 
 										var grid = $("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid")

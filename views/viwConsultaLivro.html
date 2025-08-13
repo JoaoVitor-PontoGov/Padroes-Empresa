@@ -179,13 +179,13 @@
 							}
 						},
 						{
-							id: "BtnExcluir",
+							id: "BtnFechar",
 							spriteCssClass: "k-pg-icon k-i-l1-c4",
 							text: "Fechar",
 							group: "actions",
 							attributes: { tabindex: "32" },
 							click: function () {
-
+								$("#WinConsultaLivro").data("kendoWindow").close();
 							}
 						}
 					]
@@ -244,9 +244,9 @@
 
 		$("#splConsulta").kendoSplitter({
 			panes: [
-				{ min: "25%" },
-				{ min: "50%" },
-				{ min: "25%" }
+				{ size: "12%", min: "12%" },
+				{ size: "65%", min: "25%" },
+				{ size: "23%", min: "23%" }
 			],
 			orientation: "vertical"
 		})
