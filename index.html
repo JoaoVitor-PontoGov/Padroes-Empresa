@@ -145,6 +145,7 @@
 				resizable: false,
 				closable: blModal,
 				close: function () {
+					$("#frmConsultaLivro #BarAcoes").data("kendoToolBar").enable("#BtnEditar", false)
 					$('#Win' + nmJanela).fadeOut("fast", function () {
 						$('#Win' + nmJanela).data("kendoWindow").destroy();
 					});

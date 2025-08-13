@@ -223,17 +223,22 @@
 				mode: "multiple",
 				allowUnsort: true,
 			},
-			sort: function () { },
+			sort: function () {
+				$("#frmConsultaLivro #BarAcoes").data("kendoToolBar").enable("#BtnEditar", false);
+			},
 			pageable: {
 				pageSizes: [100, 300, 500, "all"],
 				numeric: false,
 				input: true
 			},
-			columnShow: function (e) { },
-			columnHide: function (e) { },
-			filter: function (e) { },
+			columnShow: function (e) { setWidthOnShowColumnGrid(e, 'ConsultaLivro'); },
+			columnHide: function (e) { setWidthOnHideColumnGrid(e, 'ConsultaLivro'); },
+			filter: function (e) { mountFilteredScreen('filterColumn', e, 'ConsultaLivro', arrDataSource, DtsConsultaLivro, getExtraFilter()); },
 			change: function () {
 				$("#frmConsultaLivro #BarAcoes").data("kendoToolBar").enable("#BtnEditar")
+			},
+			dataBound: function () {
+				LoadGridExportActions("frmConsultaLivro", "GrdConsultaLivro", true)
 			}
 		});
 

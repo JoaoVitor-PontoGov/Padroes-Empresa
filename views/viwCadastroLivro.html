@@ -1,5 +1,7 @@
 <script>
 	$(function () {
+		kendo.culture("pt-BR");
+
 		$("#flGeneroLiterario").kendoDropDownList({
 			optionLabel: "Selecione um genero...",
 			dataSource: [
@@ -30,54 +32,79 @@
 							group: "actions",
 							attributes: { tabindex: "30" },
 							click: function () {
-								if ($("#frmCadastroLivro #idLivro").val() == "") {
-									var ultimoID = parseInt(localStorage.getItem("ultimoID") || 0)
-									const livros = JSON.parse(localStorage.getItem("livros")) || []
-									ultimoID++;
+								var mensagens = ""
+								if ($("#frmCadastroLivro #dsTitulo").val() == "") {
+									mensagens += "<li>O campo <strong>titulo</strong> e obrigatorio</li>"
+								}
 
-									livros.push({
-										idlivro: ultimoID,
-										dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
-										dsautor: $("#frmCadastroLivro #dsAutor").val(),
-										flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
-										dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
-										dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
-										fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
-									})
+								if ($("#frmCadastroLivro #dsAutor").val() == "") {
+									mensagens += "<li>O campo <strong>autor</strong> e obrigatorio</li>"
+								}
 
-									console.log("cadastrando", livros)
-									localStorage.setItem("livros", JSON.stringify(livros))
-									localStorage.setItem("ultimoID", ultimoID)
+								if ($("#frmCadastroLivro #flGeneroLiterario").data("kendoDropDownList").value() == "") {
+									mensagens += "<li>Voce deve selecionar um <strong>genero literario</strong></li>"
+								}
 
-									$("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid").dataSource.read();
-									$("#WinCadastroLivro").data("kendoWindow").close();
+								if ($("#frmCadastroLivro #dtPublicacao").data("kendoDatePicker").value() == null) {
+									mensagens += "<li>Voce deve informar a <strong>data de publicacao</strong></li>"
+								}
 
+								if (mensagens) {
+									console.log(mensagens)
+									Message('dlg', 'A', mensagens)
 								} else {
 
-									var grid = $("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid")
-									var campoSelecionado = grid.dataItem(grid.select())
+									if ($("#frmCadastroLivro #idLivro").val() == "") {
+										var ultimoID = parseInt(localStorage.getItem("ultimoID") || 0)
+										const livros = JSON.parse(localStorage.getItem("livros")) || []
+										ultimoID++;
 
-									const livros = JSON.parse(localStorage.getItem("livros")) || []
-									const index = livros.findIndex((a) => a.idlivro == campoSelecionado.idlivro)
+										livros.push({
+											idlivro: ultimoID,
+											dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
+											dsautor: $("#frmCadastroLivro #dsAutor").val(),
+											flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
+											dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
+											dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
+											fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
+										})
 
-									console.log(index)
+										console.log("Cadastrando", livros)
+										localStorage.setItem("livros", JSON.stringify(livros))
+										localStorage.setItem("ultimoID", ultimoID)
 
-									livros[index] = {
-										idlivro: livros[index].idlivro,
-										dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
-										dsautor: $("#frmCadastroLivro #dsAutor").val(),
-										flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
-										dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
-										dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
-										fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
+										$("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid").dataSource.read();
+										$("#WinCadastroLivro").data("kendoWindow").close();
+
+										Message('ntf', 'S', "Livro incluido com sucesso")
+
+									} else {
+
+										var grid = $("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid")
+										var campoSelecionado = grid.dataItem(grid.select())
+
+										const livros = JSON.parse(localStorage.getItem("livros")) || []
+										const index = livros.findIndex((a) => a.idlivro == campoSelecionado.idlivro)
+
+										console.log(index)
+
+										livros[index] = {
+											idlivro: livros[index].idlivro,
+											dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
+											dsautor: $("#frmCadastroLivro #dsAutor").val(),
+											flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
+											dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
+											dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
+											fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
+										}
+
+										console.log("Editando ", livros)
+
+										localStorage.setItem("livros", JSON.stringify(livros))
+										grid.dataSource.read();
+										$("#WinCadastroLivro").data("kendoWindow").close();
+										Message('ntf', 'S', "Livro editado com sucesso")
 									}
-
-									console.log("Editando ", livros)
-
-									localStorage.setItem("livros", JSON.stringify(livros))
-									grid.dataSource.read();
-									$("#frmConsultaLivro #BarAcoes").data("kendoToolBar").enable("#BtnEditar", false)
-									$("#WinCadastroLivro").data("kendoWindow").close();
 								}
 							}
 						},
@@ -105,7 +132,7 @@
 			$("#frmCadastroLivro #dsAutor").val(campoSelecionado.dsautor)
 			$("#frmCadastroLivro #flGeneroLiterario").data("kendoDropDownList").value(campoSelecionado.flgeneroliterario)
 			$("#frmCadastroLivro #dsNumeroPaginas").data("kendoNumericTextBox").value(campoSelecionado.dsnumeropaginas)
-			$("#frmCadastroLivro #dtPublicacao").val(campoSelecionado.dtpublicacao)
+			$("#frmCadastroLivro #dtPublicacao").data("kendoDatePicker").value(campoSelecionado.dtpublicacao)
 			if (campoSelecionado.fldisponivel == "S") {
 				$("#flDisponivel").prop("checked", true)
 			}
@@ -177,5 +204,9 @@
 		</table>
 
 		<div id="BarAcoes"></div>
+
+		<div id="popNotificacao">
+			<ul></ul>
+		</div>
 	</form>
 </div>
