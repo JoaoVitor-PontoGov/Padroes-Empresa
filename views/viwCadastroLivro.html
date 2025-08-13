@@ -30,7 +30,7 @@
 							group: "actions",
 							attributes: { tabindex: "30" },
 							click: function () {
-								if ($("#idLivro").val() == "") {
+								if ($("#frmCadastroLivro #idLivro").val() == "") {
 									var ultimoID = parseInt(localStorage.getItem("ultimoID") || 0)
 									const livros = JSON.parse(localStorage.getItem("livros")) || []
 									ultimoID++;
@@ -49,7 +49,34 @@
 									localStorage.setItem("livros", JSON.stringify(livros))
 									localStorage.setItem("ultimoID", ultimoID)
 
-									$("#GrdConsultaLivro").data("kendoGrid").dataSource.read();
+									$("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid").dataSource.read();
+									$("#WinCadastroLivro").data("kendoWindow").close();
+
+								} else {
+
+									var grid = $("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid")
+									var campoSelecionado = grid.dataItem(grid.select())
+
+									const livros = JSON.parse(localStorage.getItem("livros")) || []
+									const index = livros.findIndex((a) => a.idlivro == campoSelecionado.idlivro)
+
+									console.log(index)
+
+									livros[index] = {
+										idlivro: livros[index].idlivro,
+										dstitulo: $("#frmCadastroLivro #dsTitulo").val(),
+										dsautor: $("#frmCadastroLivro #dsAutor").val(),
+										flgeneroliterario: $("#frmCadastroLivro #flGeneroLiterario").val(),
+										dsnumeropaginas: parseInt($("#frmCadastroLivro #dsNumeroPaginas").val()),
+										dtpublicacao: $("#frmCadastroLivro #dtPublicacao").val(),
+										fldisponivel: $("#flDisponivel").is(":checked") ? "S" : "N"
+									}
+
+									console.log("Editando ", livros)
+
+									localStorage.setItem("livros", JSON.stringify(livros))
+									grid.dataSource.read();
+									$("#frmConsultaLivro #BarAcoes").data("kendoToolBar").enable("#BtnEditar", false)
 									$("#WinCadastroLivro").data("kendoWindow").close();
 								}
 							}
@@ -72,7 +99,6 @@
 		if ($("#frmConsultaLivro #idLivro").val() != "") {
 			var grid = $("#frmConsultaLivro #GrdConsultaLivro").data("kendoGrid")
 			var campoSelecionado = grid.dataItem(grid.select())
-			console.log(campoSelecionado)
 
 			$("#frmCadastroLivro #idLivro").val(campoSelecionado.idlivro)
 			$("#frmCadastroLivro #dsTitulo").val(campoSelecionado.dstitulo)
